@@ -18,7 +18,7 @@
     The following keys are expected for the _DEFAULTS <metadata> dict:
         datatype:  [required] A python type class. This limits the type of data that can be
                    provided in the .ini file and ensures that the value is returned in the
-                   correct type to faceswap. Valid datatypes are: <class 'int'>, <class 'float'>,
+                   correct type to faceswap. Valid data types are: <class 'int'>, <class 'float'>,
                    <class 'str'>, <class 'bool'>.
         default:   [required] The default value for this option.
         info:      [required] A string describing what this option does.
@@ -29,10 +29,10 @@
                    a combobox / radio option in the GUI.
         gui_radio: [optional] If <choices> are defined, this indicates that the GUI should use
                    radio buttons rather than a combobox to display this option.
-        min_max:   [partial] For <class 'int'> and <class 'float'> datatypes this is required
+        min_max:   [partial] For <class 'int'> and <class 'float'> data types this is required
                    otherwise it is ignored. Should be a tuple of min and max accepted values.
                    This is used for controlling the GUI slider range. Values are not enforced.
-        rounding:  [partial] For <class 'int'> and <class 'float'> datatypes this is
+        rounding:  [partial] For <class 'int'> and <class 'float'> data types this is
                    required otherwise it is ignored. Used for the GUI slider. For floats, this
                    is the number of decimal places to display. For ints this is the step size.
         fixed:     [optional] [train only]. Training configurations are fixed when the model is
@@ -53,35 +53,68 @@ _HELPTEXT = (
 _DEFAULTS = {
     "minsize": {
         "default": 20,
-        "info": "The minimum size of a face (in pixels) to be accepted as a positive match.\n"
-                "Lower values use significantly more VRAM and will detect more false "
-                "positives.",
+        "info": "The minimum size of a face (in pixels) to be accepted as a positive match."
+                "\nLower values use significantly more VRAM and will detect more false positives.",
         "datatype": int,
         "rounding": 10,
         "min_max": (20, 1000),
         "choices": [],
+        "group": "settings",
         "gui_radio": False,
         "fixed": True,
     },
+    "scalefactor": {
+        "default": 0.709,
+        "info": "The scale factor for the image pyramid.",
+        "datatype": float,
+        "rounding": 3,
+        "min_max": (0.1, 0.9),
+        "choices": [],
+        "group": "settings",
+        "gui_radio": False,
+        "fixed": True,
+    },
+    "batch-size": {
+        "default": 8,
+        "info": "The batch size to use. To a point, higher batch sizes equal better performance, "
+                "but setting it too high can harm performance.\n"
+                "\n\tNvidia users: If the batchsize is set higher than the your GPU can "
+                "accomodate then this will automatically be lowered.",
+        "datatype": int,
+        "rounding": 1,
+        "min_max": (1, 64),
+        "choices": [],
+        "group": "settings",
+        "gui_radio": False,
+        "fixed": True,
+    },
+    "cpu": {
+        "default": True,
+        "info": "MTCNN detector still runs fairly quickly on CPU on some setups. "
+                "Enable CPU mode here to use the CPU for this detector to save some VRAM at a "
+                "speed cost.",
+        "datatype": bool,
+        "group": "settings"
+    },
     "threshold_1": {
         "default": 0.6,
-        "info": "First stage threshold for face detection. This stage obtains face "
-                "candidates.",
+        "info": "First stage threshold for face detection. This stage obtains face candidates.",
         "datatype": float,
         "rounding": 2,
         "min_max": (0.1, 0.9),
         "choices": [],
+        "group": "threshold",
         "gui_radio": False,
         "fixed": True,
     },
     "threshold_2": {
         "default": 0.7,
-        "info": "Second stage threshold for face detection. This stage refines face "
-                "candidates.",
+        "info": "Second stage threshold for face detection. This stage refines face candidates.",
         "datatype": float,
         "rounding": 2,
         "min_max": (0.1, 0.9),
         "choices": [],
+        "group": "threshold",
         "gui_radio": False,
         "fixed": True,
     },
@@ -93,16 +126,7 @@ _DEFAULTS = {
         "rounding": 2,
         "min_max": (0.1, 0.9),
         "choices": [],
-        "gui_radio": False,
-        "fixed": True,
-    },
-    "scalefactor": {
-        "default": 0.709,
-        "info": "The scale factor for the image pyramid.",
-        "datatype": float,
-        "rounding": 3,
-        "min_max": (0.1, 0.9),
-        "choices": [],
+        "group": "threshold",
         "gui_radio": False,
         "fixed": True,
     },

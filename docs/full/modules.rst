@@ -2,7 +2,12 @@ faceswap
 ========
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 3
 
-   lib
-   plugins
+   lib/lib
+   plugins/plugins
+   scripts
+   tests/tests
+   tools/tools
+   setup
+   update_deps
